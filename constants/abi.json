@@ -1,0 +1,447 @@
+[
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "serviceProvider",
+          "type": "address"
+        }
+      ],
+      "name": "addServiceProvider",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "serviceProvider",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "serviceAttribute1",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "serviceAttribute2",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "serviceAttribute3",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "serviceAttribute4",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "serviceAttribute5",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "identityAttributeReference1",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "identityAttributeReference2",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "identityAttributeReference3",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "identityAttributeReference4",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "identityAttributeReference5",
+          "type": "bytes"
+        }
+      ],
+      "name": "addServiceToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "admin",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "attribute1",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute2",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute3",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute4",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute5",
+          "type": "bytes"
+        }
+      ],
+      "name": "createIdentityToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getIdentityToken",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "isSigned",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isRejected",
+              "type": "bool"
+            },
+            {
+              "internalType": "bytes",
+              "name": "attribute1",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "attribute2",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "attribute3",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "attribute4",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "attribute5",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes[]",
+              "name": "signature",
+              "type": "bytes[]"
+            }
+          ],
+          "internalType": "struct DeIdentity.IdentityToken",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMyToken",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "getPublicKey",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getServiceProviders",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "serviceProvider",
+          "type": "address"
+        }
+      ],
+      "name": "getServiceTokens",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "serviceProvider",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes",
+              "name": "serviceAttribute1",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "serviceAttribute2",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "serviceAttribute3",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "serviceAttribute4",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "serviceAttribute5",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "identityAttributeReference1",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "identityAttributeReference2",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "identityAttributeReference3",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "identityAttributeReference4",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "identityAttributeReference5",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bool",
+              "name": "isVerified",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct DeIdentity.ServiceToken[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getUnsignedRejectedIdentityTokens",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "identityTokensKeys",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "providerPublicKeys",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "serviceProviders",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute1Hash",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute2Hash",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute3Hash",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute4Hash",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "attribute5Hash",
+          "type": "bytes"
+        }
+      ],
+      "name": "signIdentityToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_publicKey",
+          "type": "bytes"
+        }
+      ],
+      "name": "storePublicKey",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
