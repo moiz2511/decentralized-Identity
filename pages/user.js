@@ -6,12 +6,13 @@ import { contractAddresses, abi } from "../constants"
 import { ethers } from "ethers"
 import Header from "../components/header";
 import { encrypt } from '@metamask/eth-sig-util';
+import Datetime from "react-datetime";
 const ascii85 = require('ascii85');
 
 
 export default function Home() {
-    // const contractAddress = '0xDdb87D4Bf5A626869964783f9010a81842145555';
-    const contractAddress = '0x97Ba68e03545Bc4460F43e2810DA352eB29fd501';
+    // const contractAddress = '0x10991E7c75BD50182F0B3D2dee6827aec662D5ff';
+    const contractAddress = '0xBceb06E71171961Ed1A1a22A221BC8568c75f9Af';
 
 
     const { isWeb3Enabled, chainId, user } = useMoralis();
@@ -43,6 +44,7 @@ export default function Home() {
     const [serviceAtt3, setServiceAtt3] = useState('')
     const [serviceAtt4, setServiceAtt4] = useState('')
     const [serviceAtt5, setServiceAtt5] = useState('')
+    const [validTill, setValidTill] = useState(null)
     const [myTokenInfo, setMyTokenInfo] = useState(2)
     const options = ['Attribute 1', 'Attribute 2', 'Attribute 3', 'Attribute 4', 'Attribute 5']
     const [selectedOptions, setSelectedOptions] = useState([])
@@ -366,16 +368,16 @@ export default function Home() {
             Buffer.from(enc4.ciphertext, 'base64'),
         ]);
         //fifth attribue
-        const enc5 = encrypt({
-            publicKey: publicKey.toString('base64'),
-            data: serviceAtt5,
-            version: 'x25519-xsalsa20-poly1305',
-        });
-        const buf5 = Buffer.concat([
-            Buffer.from(enc5.ephemPublicKey, 'base64'),
-            Buffer.from(enc5.nonce, 'base64'),
-            Buffer.from(enc5.ciphertext, 'base64'),
-        ]);
+        // const enc5 = encrypt({
+        //     publicKey: publicKey.toString('base64'),
+        //     data: serviceAtt5,
+        //     version: 'x25519-xsalsa20-poly1305',
+        // });
+        // const buf5 = Buffer.concat([
+        //     Buffer.from(enc5.ephemPublicKey, 'base64'),
+        //     Buffer.from(enc5.nonce, 'base64'),
+        //     Buffer.from(enc5.ciphertext, 'base64'),
+        // ]);
         if (!selectedOptions.includes('Attribute 1')) {
             attReference[0] = "No Value"
         }
@@ -457,17 +459,17 @@ export default function Home() {
         // if (!selectedOptions.includes('Attribute 5')) {
         //     serviceBuf5 = "No Value"
         // }
-        createServiceToken(buf,buf2,buf3,buf4,buf5,serviceBuf1, serviceBuf2, serviceBuf3, serviceBuf4, serviceBuf5)
+        createServiceToken(buf,buf2,buf3,buf4,serviceBuf1, serviceBuf2, serviceBuf3, serviceBuf4, serviceBuf5)
 
     }
-    async function createServiceToken(buf1, buf2, buf3, buf4, buf5, serviceBuf1, serviceBuf2, serviceBuf3, serviceBuf4, serviceBuf5){
+    async function createServiceToken(buf1, buf2, buf3, buf4, serviceBuf1, serviceBuf2, serviceBuf3, serviceBuf4, serviceBuf5){
         var serAttArr=[]
         var idenRefArr=[]
         serAttArr.push(buf1)
         serAttArr.push(buf2)
         serAttArr.push(buf3)
         serAttArr.push(buf4)
-        serAttArr.push(buf5)
+        // serAttArr.push(buf5)
         idenRefArr.push(serviceBuf1)
         idenRefArr.push(serviceBuf2)
         idenRefArr.push(serviceBuf3)
@@ -480,6 +482,8 @@ export default function Home() {
         console.log(serAttArrBuffer)
         console.log(idenRefArr)
         console.log(selectedOption)
+        var serviceValidTill=new Date(validTill)
+        serviceValidTill = Math.floor(serviceValidTill.getTime() / 1000);
         const listOptions = {
             abi: abi,
             contractAddress: contractAddress,
@@ -490,12 +494,12 @@ export default function Home() {
                 serviceAttribute2: buf2,
                 serviceAttribute3: buf3,
                 serviceAttribute4: buf4,
-                serviceAttribute5: buf5,
                 identityAttributeReference1: serviceBuf1,
                 identityAttributeReference2: serviceBuf2,
                 identityAttributeReference3: serviceBuf3,
                 identityAttributeReference4: serviceBuf4,
-                identityAttributeReference5: serviceBuf5
+                identityAttributeReference5: serviceBuf5,
+                validTill: serviceValidTill
             },
         }
 
@@ -505,6 +509,9 @@ export default function Home() {
             onError: (error) => console.log(error),
         })
     }
+    const handleDateChange = (date) => {
+        setValidTill(date);
+    };
     return (
         <>
             <Header />
@@ -517,23 +524,23 @@ export default function Home() {
                         </h1>
                         <div className=' flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 1:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att1} onChange={(e) => setAtt1(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att1} onChange={(e) => setAtt1(e.target.value)} placeholder='Identity Attribute 1' />
                         </div>
                         <div className=' flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 2:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att2} onChange={(e) => setAtt2(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att2} onChange={(e) => setAtt2(e.target.value)} placeholder='Identity Attribute 1' />
                         </div>
                         <div className=' flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 3:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att3} onChange={(e) => setAtt3(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att3} onChange={(e) => setAtt3(e.target.value)} placeholder='Identity Attribute 1' />
                         </div>
                         <div className=' flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 4:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att4} onChange={(e) => setAtt4(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att4} onChange={(e) => setAtt4(e.target.value)} placeholder='Identity Attribute 1' />
                         </div>
                         <div className=' flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 5:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att5} onChange={(e) => setAtt5(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={att5} onChange={(e) => setAtt5(e.target.value)} placeholder='Identity Attribute 1' />
                         </div>
                         <div className=' flex items-center justify-center   my-5 gap-x-4'>
                             <button  className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => encryptData()}>Encrypt</button>
@@ -551,7 +558,10 @@ export default function Home() {
                         <h4 className='text-base text-center font-semibold'>
                             Please choose Service provider
                         </h4>
+                        <div className='flex justify-center items-center my-5'>
+
                         <select 
+                        className='border-2 border-black rounded-lg py-2 '
                         defaultValue={'Select'}
                             onChange={e => setSelectedOption(e.target.value)}>
                             <option value="" selected disabled hidden>Choose here</option>
@@ -563,47 +573,58 @@ export default function Home() {
                             
 )}
                         </select >
+                        </div>
                         <div className='flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 1:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt1} onChange={(e) => setServiceAtt1(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt1} onChange={(e) => setServiceAtt1(e.target.value)} placeholder='Service Attribute 1' />
                         </div>
                         <div className='flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 2:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt2} onChange={(e) => setServiceAtt2(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt2} onChange={(e) => setServiceAtt2(e.target.value)} placeholder='Service Attribute 2' />
                         </div>
                         <div className='flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 3:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt3} onChange={(e) => setServiceAtt3(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt3} onChange={(e) => setServiceAtt3(e.target.value)} placeholder='Service Attribute 3' />
                         </div>
                         <div className='flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 4:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt4} onChange={(e) => setServiceAtt4(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt4} onChange={(e) => setServiceAtt4(e.target.value)} placeholder='Service Attribute 4' />
                         </div>
-                        <div className='flex items-center justify-center   my-5 gap-x-4'>
+                        {/* <div className='flex items-center justify-center   my-5 gap-x-4'>
                             <label for="id" className=' label-text text-lg font-semibold '>Attribute 5:</label>
-                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt5} onChange={(e) => setServiceAtt5(e.target.value)} placeholder='Provider Address' />
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={serviceAtt5} onChange={(e) => setServiceAtt5(e.target.value)} placeholder='Service Attribute 5' />
+                        </div> */}
+                        <div className='flex items-center justify-center   my-5 gap-x-4'>
+                            <label className=' label-text text-lg font-semibold ' >Valid till:</label>
+                            <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="datetime-local" onChange={(e) => setValidTill(e.target.value)} placeholder='Please choose validity time'  />
                         </div>
                         
-                        <h2>Check to include Service Attributes</h2>
+                        <h2 className='text-center text-[18px] font-bold my-5'>Check to include Identity Attributes</h2>
+                        <div className='flex flex-col justify-center items-center gap-y-5 '>
                         {options.map((option,index) => (
-                            <div key={option}>
-                                <label>
+                            
+                            <div key={option} className="flex items-center gap-x-4">
+                                <label className='text-lg font-semibold  '>
                                     <input
                                         type="checkbox"
                                         value={option}
                                         onChange={handleChange}
                                         checked={selectedOptions.includes(option)}
                                     />
-                                    {option}
+                                    {option}:
                                 </label>
                                 <input
+                                    className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2'
                                     type="text"
+                                    placeholder={`Identity Attribute ${index +1}`}
                                     // value={attReference[index]}
                                     onChange={(e)=>handleRefInput(e,index)}
                                     
                                 />
                             </div>
                         ))}
+
+                        </div>
                         <div className='flex justify-center mt-3'>
                             <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => encryptServiceData()}>Encrypt Service Token</button>
                         </div>

@@ -11,7 +11,10 @@ import { ethers } from "ethers";
 export default function Admin() {
     const { isWeb3Enabled, chainId, user } = useMoralis();
 
-    const contractAddress = '0x97Ba68e03545Bc4460F43e2810DA352eB29fd501';
+    // const contractAddress = '0xb9AcA62ceAa596855a2185ce1b5bDdC03Db211fb';
+    const contractAddress = '0xBceb06E71171961Ed1A1a22A221BC8568c75f9Af';
+
+    
     const [allTokens, setAllTokens] = useState([])
     const [encrptedTokenData, setEncryptedTokenData] = useState([])
     const [decrptedTokenData, setDecryptedTokenData] = useState([])
@@ -372,19 +375,30 @@ export default function Admin() {
                         <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => getTokens()}>Get Tokens</button>
                     </div>
                     {allTokens.map((token) => (
-                        <div onClick={() => getTokenData(token)}>
-                            <h4 className='text-base font-semibold'>
-                                {token}
-                            </h4>
+
+
+
+<div className='flex justify-center '>
+
+                            <div className='flex justify-start mt-5 w-fit h-40 overflow-y-scroll  flex-col'>
+
+                            <div onClick={() => getTokenData(token)}  >
+                                <h4 className='cursor-pointer text-base font-semibold mb-2 text-white bg-black px-6 py-2 border-[1px] border-black rounded-lg hover:text-black hover:bg-white'>
+                                    {token}
+                                </h4>
+                            </div>
                         </div>
+</div>
+
+
                     ))}
                     <div className='flex flex-col items-center  mt-5 text-lg'>
                         <h2 className='text-lg font-semibold'>
                             Encrypted Token Data
                         </h2>
-                        <div className=' shadow-lg shadow-black w-fit h-40 overflow-y-auto'>
+                        <div className=' mt-4'>
 
-                            <h6  className='text-sm font-semibold mt-2'>
+                            <h6 className='text-sm font-semibold mt-2'>
                                 {encrptedTokenData[0] && encrptedTokenData[0]}
                             </h6>
                             <h6 className='text-sm font-semibold mt-2'>
@@ -405,7 +419,7 @@ export default function Admin() {
                         <h2 className='text-lg font-semibold'>
                             Decrypted Token Data
                         </h2>
-                        <div className=' shadow-lg shadow-black w-fit h-40 overflow-y-auto'>
+                        <div className=' mt-4'>
 
                             <h6 className='text-sm font-semibold mt-2'>
                                 {decrptedTokenData[0] && decrptedTokenData[0]}
@@ -430,13 +444,24 @@ export default function Admin() {
                         <button className='mx-5  bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => sign()}>Verify & Sign</button>
                     </div>
 
-                    <div className='flex justify-center my-5' >
-                        <h2 className='text-lg font-semibold'>Signature hash</h2>
-                        {signatureHash.map((hash) => (
-                            <h6 className=' shadow-lg shadow-black w-fit h-40 overflow-y-auto'>
-                                {hash}
-                            </h6>
-                        ))}
+                    <div className='flex justify-center flex-col my-5' >
+                        <h2 className='text-lg font-semibold text-center my-5'>Signature hash</h2>
+                        {signatureHash.map((hash) => {
+
+                            return (
+
+                                <>
+                                    <div>
+
+                                        <h6 className='text-center ' >
+                                            {hash}
+                                        </h6>
+                                        <br />
+                                    </div>
+                                </>
+                            )
+                        }
+                        )}
                     </div>
 
                     <div className='flex justify-center mt-5'>
@@ -451,19 +476,19 @@ export default function Admin() {
 
 
             {tab === "provider" ?
-            <div>
-                <div className=' flex items-center justify-center   my-5 gap-x-4'>
-                    <label for="id" className=' label-text text-lg font-semibold'>Address:</label>
-                
-                    <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder='Provider Address' />
-                
-                    
-                </div>
-                <div className='flex justify-center mt-5'>
-                    <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => addProvider()}>Add Provider</button>
-                </div>
+                <div>
+                    <div className=' flex items-center justify-center   my-5 gap-x-4'>
+                        <label for="id" className=' label-text text-lg font-semibold'>Address:</label>
 
-            </div>
+                        <input className='border-black border-2 rounded-lg w-[60vh]   h-10 px-2' type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder='Provider Address' />
+
+
+                    </div>
+                    <div className='flex justify-center mt-5'>
+                        <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => addProvider()}>Add Provider</button>
+                    </div>
+
+                </div>
                 :
                 ""
             }
@@ -472,7 +497,7 @@ export default function Admin() {
 
 
 
-         
+
 
 
         </div>

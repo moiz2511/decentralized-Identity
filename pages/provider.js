@@ -27,7 +27,7 @@ export default function Home() {
     }, [web3])
     const { isWeb3Enabled, chainId, user } = useMoralis();
     const { runContractFunction } = useWeb3Contract();
-    const contractAddress = '0x97Ba68e03545Bc4460F43e2810DA352eB29fd501';
+    const contractAddress = '0xBceb06E71171961Ed1A1a22A221BC8568c75f9Af';
     const [mySerTokens, setMySerTokens] = useState([])
     const [myAccount, setMyAccount] = useState('')
     const [enSerAtt, setEnSerAtt] = useState([])
@@ -107,11 +107,18 @@ export default function Home() {
             },
         }
 
-        const myTokens = await runContractFunction({
+        var myTokens = await runContractFunction({
             params: listOptions,
             onSuccess: handleAddSuccessNo,
             onError: (error) => console.log(error),
         })
+        if(myTokens){
+            
+            myTokens =myTokens.filter((token)=>{
+                console.log(token.user)
+                return !token.user.includes('0000000')
+            })
+        }
         setMySerTokens(myTokens)
         console.log(myTokens)
     }
@@ -172,7 +179,7 @@ export default function Home() {
         const serviceAttribute2 = Buffer.from(mySerTokens[index].serviceAttribute2.slice(2), 'hex');
         const serviceAttribute3 = Buffer.from(mySerTokens[index].serviceAttribute3.slice(2), 'hex');
         const serviceAttribute4 = Buffer.from(mySerTokens[index].serviceAttribute4.slice(2), 'hex');
-        const serviceAttribute5 = Buffer.from(mySerTokens[index].serviceAttribute5.slice(2), 'hex');
+        // const serviceAttribute5 = Buffer.from(mySerTokens[index].serviceAttribute5.slice(2), 'hex');
         const identityAttributeReference1 = Buffer.from(mySerTokens[index].identityAttributeReference1.slice(2), 'hex');
         const identityAttributeReference2 = Buffer.from(mySerTokens[index].identityAttributeReference2.slice(2), 'hex');
         const identityAttributeReference3 = Buffer.from(mySerTokens[index].identityAttributeReference3.slice(2), 'hex');
@@ -186,7 +193,7 @@ export default function Home() {
         encryptedServiceAttArr.push(serviceAttribute2.slice(56).toString('base64'))
         encryptedServiceAttArr.push(serviceAttribute3.slice(56).toString('base64'))
         encryptedServiceAttArr.push(serviceAttribute4.slice(56).toString('base64'))
-        encryptedServiceAttArr.push(serviceAttribute5.slice(56).toString('base64'))
+        // encryptedServiceAttArr.push(serviceAttribute5.slice(56).toString('base64'))
         setEnSerAtt(encryptedServiceAttArr)
 
         encryptedIdentityAttArr.push(identityAttributeReference1.slice(56).toString('base64'))
@@ -201,7 +208,7 @@ export default function Home() {
         var serD2 = await decryptData(myAccount, serviceAttribute2)
         var serD3 = await decryptData(myAccount, serviceAttribute3)
         var serD4 = await decryptData(myAccount, serviceAttribute4)
-        var serD5 = await decryptData(myAccount, serviceAttribute5)
+        // var serD5 = await decryptData(myAccount, serviceAttribute5)
 
         var ideD1 = await decryptData(myAccount, identityAttributeReference1)
         var ideD2 = await decryptData(myAccount, identityAttributeReference2)
@@ -209,11 +216,11 @@ export default function Home() {
         var ideD4 = await decryptData(myAccount, identityAttributeReference4)
         var ideD5 = await decryptData(myAccount, identityAttributeReference5)
 
-        console.log(serD1, serD2, serD3, serD4, serD5)
+        console.log(serD1, serD2, serD3, serD4)
         console.log(ideD1, ideD2, ideD3, ideD4, ideD5)
 
 
-        const decryptedServiceAttArr = [serD1, serD2, serD3, serD4, serD5]
+        const decryptedServiceAttArr = [serD1, serD2, serD3, serD4]
         setDeSerAtt(decryptedServiceAttArr)
         const decryptedIdentityAttArr = [ideD1, ideD2, ideD3, ideD4, ideD5]
         setDeIdenAtt(decryptedIdentityAttArr)
@@ -261,28 +268,48 @@ export default function Home() {
 
         <div>
             <Header />
+            <div className='flex justify-end  mt-3'>
+
+                <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => providePublicKey()}>Provide Public Key</button>
+            </div>
             <h1 className='text-3xl font-semibold text-center my-10'>
                 Provider
             </h1>
-            {mySerTokens && mySerTokens.map((token, index) => (
-                <div className='flex justify-center items-center' onClick={() => tokenClicked(token, index)}>
-                    <h6 className='text-xl font-semibold text-center'>{token.user}</h6>
+          
+
+<div className='flex justify-center '>
+                <div className='  w-fit h-40 overflow-y-scroll flex flex-col justify-start  ' >
+                    {mySerTokens && mySerTokens.map((token, index) => (
+                        <div  onClick={() => tokenClicked(token, index)}>
+                            <h6 className='cursor-pointer text-base mb-2 font-semibold text-white bg-black px-6 py-2 border-[1px] border-black rounded-lg hover:text-black hover:bg-white'>{token.user}</h6>
+                            {/* <h6 className='cursor-pointer text-base font-semibold text-white bg-black px-6 py-2 border-[1px] border-black rounded-lg hover:text-black hover:bg-white'>{token.user}</h6> */}
+                        </div>
+                    ))}
+
                 </div>
-            ))}
+</div>
+           x
+
             <h3 className='text-lg font-medium text-center'>Encrypted Service Attributes</h3>
             {enSerAtt.length > 0 && enSerAtt.map((attribute) => (
                 <h5 className='text-base  font-semibold text-center'>
                     {attribute}
                 </h5>
             ))}
-            <h3 className='text-lg font-medium text-center'>Decrypted Service Attributes</h3>
+            <h3 className='text-lg font-medium text-center my-5'>Decrypted Service Attributes</h3>
+            <div className='flex justify-center'>
+
+            <div className='w-80 border-2 border-black rounded-lg px-16 '>
+
             {deSerAtt.length > 0 && deSerAtt.map((attribute) => (
                 <h5 className='text-base  font-semibold text-center'>
                     {attribute}
                 </h5>
             ))}
-            {identityVerified==true?<h4 className='text-green-700'>Identity token is overall verified by the identity Provider you should verify the admin signature manually to the identity attributes provided to you</h4>:identityVerified==false?
-                <h4 className='text-red-700'>Identity token is not yet verified by the identity Provider</h4> :null   
+            </div>
+            </div>
+            {identityVerified==true?<h4 className='text-green-700 mt-5 text-center'>Identity token is overall verified by the identity Provider you should verify the admin signature manually to the identity attributes provided to you</h4>:identityVerified==false?
+                <h4 className='text-red-700 text-center mt-5'>Identity token is not yet verified by the identity Provider</h4> :null   
             }
             <h3 className='text-xl font-semibold text-center'>Decrypted Identity Attributes</h3>
             {deIdenAtt.length > 0 && deIdenAtt.map((attribute,index) => (
@@ -292,17 +319,18 @@ export default function Home() {
                             <h5 className='text-base font-semibold text-center'>
                                 {attribute}
                             </h5>
-                            <p className='text-sm font-medium text-center'>{verifedArr[index]}</p>
+                        <p className={`text-sm font-medium text-center ${verifedArr[index] =='Signature has not been verified! Data has been manipulated.' ?'text-red-600':'text-green-600'} `}>{verifedArr[index]}</p>
+
+                        <div className='flex justify-center mt-3'>
+
                             <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={()=>verifyHash(attribute,index)}>
                                 Verify Hash
                             </button>
+                            </div>
                         </>}
                 </>
             ))}
-            <div className='flex justify-center mt-3'>
-
-                <button className='mx-5 bg-black text-white border-[2px] rounded-lg border-black px-3 py-2 hover:bg-white hover:text-black hover:font-semibold' onClick={() => providePublicKey()}>Provide Public Key</button>
-            </div>
+            
         </div>
 
     )
