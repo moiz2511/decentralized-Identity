@@ -14,7 +14,7 @@ import Link from 'next/link';
 const supportedChains = ["31337", "5"];
 export default function Home() {
   // const contractAddress = '0x10991E7c75BD50182F0B3D2dee6827aec662D5ff';
-  const contractAddress = '0xBceb06E71171961Ed1A1a22A221BC8568c75f9Af';
+  const contractAddress = '0x96eF673786FAF2bc865bFE406a97Fb54Ecf96Ee8';
 
   const { isWeb3Enabled, chainId,user } = useMoralis();
   

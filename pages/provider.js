@@ -27,7 +27,7 @@ export default function Home() {
     }, [web3])
     const { isWeb3Enabled, chainId, user } = useMoralis();
     const { runContractFunction } = useWeb3Contract();
-    const contractAddress = '0xBceb06E71171961Ed1A1a22A221BC8568c75f9Af';
+    const contractAddress = '0x96eF673786FAF2bc865bFE406a97Fb54Ecf96Ee8';
     const [mySerTokens, setMySerTokens] = useState([])
     const [myAccount, setMyAccount] = useState('')
     const [enSerAtt, setEnSerAtt] = useState([])
